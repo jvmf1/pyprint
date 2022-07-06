@@ -22,8 +22,13 @@ def print_table(colnames, data, spaces=2, align_left=True, border=False):
                 format += f'|%{(lens[i]+spaces)*multiplier}s|'
         else:
             format += f'%{(lens[i]+spaces)*multiplier}s '
+
+    tmp = []
+
+    for d in colnames:
+        tmp.append(' ')
     
-    top = format % tuple(colnames)
+    top = format % tuple(tmp)
 
     if border:
         separator = '-'*len(top)
@@ -36,6 +41,7 @@ def print_table(colnames, data, spaces=2, align_left=True, border=False):
     if border:
         print(separator)
 
+    top = format % tuple(colnames)
     print(top)
 
     if border:
@@ -49,5 +55,5 @@ def print_table(colnames, data, spaces=2, align_left=True, border=False):
 
 if __name__ == '__main__':
 
-    print_table(['abc', 'def'], [[1,2],[3,4]], align_left=True, border=True)
+    print_table(['a|bc', 'def'], [[1,2],[3,4]], align_left=True, border=True)
 
