@@ -1,4 +1,4 @@
-def print_table(colnames, data, spaces=2, align_left=True, border=False):
+def print_table(colnames, data, spaces_left=1, spaces_right=1, align='left', border=False, horizontal_char='-', vertical_char='|', corner_char='+'):
 
     lens = []
 
@@ -11,17 +11,21 @@ def print_table(colnames, data, spaces=2, align_left=True, border=False):
                 lens[y] = len(str(x))
 
     format=''
-    multiplier = 1
-    if align_left:
+    if align == 'left':
         multiplier = -1
+    else:
+        multiplier=1
     for i, col in enumerate(colnames):
         if border:
             if i != 0:
-                format += f'%{(lens[i]+spaces)*multiplier}s|'
+                format += f'{" "*spaces_left}%{(lens[i])*multiplier}s{" "*spaces_right}{vertical_char}'
             else:
-                format += f'|%{(lens[i]+spaces)*multiplier}s|'
+                format += f'{vertical_char}{" "*spaces_left}%{(lens[i])*multiplier}s{" "*spaces_right}{vertical_char}'
         else:
-            format += f'%{(lens[i]+spaces)*multiplier}s '
+            if i != 0:
+                format += f'{" "*spaces_left}%{(lens[i])*multiplier}s{" "*spaces_right}'
+            else:
+                format += f'{" "*spaces_left}%{(lens[i])*multiplier}s{" "*spaces_right}'
 
     tmp = []
 
@@ -31,11 +35,11 @@ def print_table(colnames, data, spaces=2, align_left=True, border=False):
     top = format % tuple(tmp)
 
     if border:
-        separator = '-'*len(top)
+        separator = horizontal_char*len(top)
         separator = list(separator)
         for i, w in enumerate(top):
-            if w == '|':
-                separator[i]='+'
+            if w == vertical_char:
+                separator[i]=corner_char
         separator = ''.join(separator)
 
     if border:
@@ -55,5 +59,5 @@ def print_table(colnames, data, spaces=2, align_left=True, border=False):
 
 if __name__ == '__main__':
 
-    print_table(['a|bc', 'def'], [[1,2],[3,4]], align_left=True, border=True)
+    print_table(['a|bc', 'def'], [[1,2],[3,4]], align='left', border=True, horizontal_char='-')
 
